@@ -1,28 +1,55 @@
+<!--単一ファイルコンポーネント -->
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <LikeHeader class="header"></LikeHeader>
+    <!-- コンポーネントをパスカルケースで書いた場合、↑ケバブケースでも↓パスカルケースでもどちらでも書ける -->
+    <!-- キャメルケースでもかけるがなるべくコンポーネントはパスカルケースで書いた方がいいという事になっている。 -->
+    <!-- <like-Header class="header"></like-Header> -->
+    <p>{{ number }}</p>
+    <!-- データバインディングを使えば親が持っているデータを子に渡せる -->
+    <LikeNumber v-bind:totalNumber="number"
+                testProps="test"
+                v-on:my-click="incrementNumber">
+                </LikeNumber>
+    <!-- v-bindは下みたいに省略できる -->
+    <!-- propsではHTMLは属性をケバブケースで書く慣習があるからケバブケースで書いた方が良い -->
+    <LikeNumber :total-number="number"
+                 test-props="test"></LikeNumber>
+    <!-- propsによるバリデーション用↓ -->
+    <LikeNumber></LikeNumber>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import LikeHeader from "./components/LikeHeader.vue";
 
 export default {
-  name: 'App',
+  // この中にコンポーネントオプション（methodsやdataを書く）
+  // ES6は「data: function(){}」を以下みたいに書ける
+  data() {
+    return {
+      number: 10
+    }
+  },
+  // 単一ファイルコンポーネントのローカル登録
   components: {
-    HelloWorld
+    // LikeHeader: LikeHeader
+    // ES6からはKeyとValueが同じの場合、下の様に短縮して書くことができる
+    LikeHeader
+  },
+  methods: {
+    // 下の引数(value)で$emitで書いた第二引数を受け取れる
+    incrementNumber: function(value) {
+      this.number = value
+    }
   }
+  
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  /* .header {
+    background-color: tan
+  } */
+
 </style>
