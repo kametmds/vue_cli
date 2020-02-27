@@ -3,8 +3,8 @@
 <!-- CDNは文字列として書かなければいけなかったテンプレートがHTMLみたいにかける様になっている -->
 <!-- ※テンプレートのルートの要素は一つでなければいけない。二つ以上あるとエラーが起きる。一つの要素で括る必要がある -->
   <div class="div">
-    <p>いいね({{ totalNumber / 2}})</p>
-    <p>いいね({{ halfNumber }})</p>
+    <p>いいね1/2({{ totalNumber / 2}})</p>
+    <p>いいね1/4({{ halfNumber }})</p>
     <button @click="increment">+1</button>
   </div>
 </template>
@@ -35,12 +35,12 @@ export default {
   },
   methods: {
     increment() {
-      // this.number += 1
+      // this.totalNumber += 1は自分の（子の）値が変わるだけ
       // 親コンポーネントにデータを渡す送り口
       // $emit('発火させるイベント名',渡すデータ)
       // ※親にデータを渡すという考えより、
       // 子の好きなタイミングで親のメソッドを発火する事ができると考えた方が良い
-      // $emitはカスタムイベントを作る物
+      // $emitはカスタムイベントを作る物、イベント名はケバブケースにする。
       this.$emit("my-click", this.totalNumber + 1);
     }
   }
