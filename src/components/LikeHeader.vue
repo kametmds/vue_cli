@@ -8,7 +8,7 @@
     <hr>
     <slot name="like">
     </slot>
-    <p>{{ headerText }}</p>
+    <!-- <p>{{ headerText }}</p> -->
     <!-- ↓name="default"が無くてもいい、詳しい解説はv-slot側に記載 -->
     <slot name="default"></slot>
   </div>
@@ -19,8 +19,8 @@ export default {
   data() {
     return {
       username: {
-        firstName: "Jack",
-        lastName: "Donald"
+        firstName: "Kame",
+        lastName: "Yuki"
       }
     }
   },
