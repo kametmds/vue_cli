@@ -33,8 +33,8 @@
     <!-- <LikeNumber></LikeNumber> -->
     <button @click="currentComponent = 'Home'">Home</button>
     <button @click="currentComponent = 'About'">About</button>
-    <!-- <Home v-if="currentComponent === 'Home'"></Home>
-    <About v-if="currentComponent === 'About'"></About> -->
+    <!-- <Home v-if="currentComponent === 'Home'"></Home> -->
+    <!-- <About v-if="currentComponent === 'About'"></About> -->
     <!-- 動的に複数のコンポーネントを切り替えるために、componentタグと、is属性を使用すると簡単 -->
     <!-- だが、動的コンポーネントは切り替えるごとにdestroyedされる挙動となることを理解する事。入力したinputの内容が消える等コンポーネントが作り直されている。 -->
     <keep-alive>
@@ -44,11 +44,11 @@
     <component v-bind:is="currentComponent"></component>
     <div>
       <h2>イベントフォーム(v-modelの修飾子↓)</h2>
-      <label for="title">タイトル</label>
-      <input id="tiitle" type="text" v-model="eventData.title">
+      <!-- コンポーネントでv-modelを使う方法 -->
+      <EventTitle v-model="eventData.title"></EventTitle>
       <label for="titleTwo">/lazy修飾子タイトル</label>
-       <!-- .lazy修飾子でchangeイベント後にデータと入力を同期する、アドレスのバリデーションの時とかに使う -->
-      <input id="tiitleTwo" type="text" v-model.lazy="eventData.titleTwo">
+      <!-- .lazy修飾子でchangeイベント後にデータと入力を同期する、アドレスのバリデーションの時とかに使う -->
+      <input id="titleTwo" type="text" v-model.lazy="eventData.titleTwo">
       <p>{{ eventData.title }}/{{ eventData.titleTwo }}</p>
       <hr>
       <label for="maxNumber">人数</label>
@@ -83,6 +83,20 @@
       <input type="checkbox" id="30" value="30代" v-model="eventData.target">
       <label for="30">30代</label>
       <p>{{ eventData.target }}</p>
+      <hr>
+      <p>ラジオボタンに双方向データバインディングを作成</p>
+      <p>参加費</p>
+      <input type="radio" id="free" value="無料" v-model="eventData.price">
+      <label for="free">無料</label>
+      <input type="radio" id="paid" value="有料" v-model="eventData.price">
+      <label for="paid">有料</label>
+      <hr>
+      <p>セレクトボックスに双方向データバインディングを作成</p>
+      <p>開催場所</p>
+      <select v-model="eventData.location">
+        <option v-for="location in locations" :key="location">{{location}}</option>
+      </select>
+      <p>{{ eventData.location }}</p>
     </div>
   </div>
 </template>
@@ -91,6 +105,7 @@
 import LikeHeader from "./components/LikeHeader.vue";
 import About from "./components/About.vue";
 import Home from "./components/Home.vue";
+import EventTitle from "./components/EventTitle.vue";
 
 
 export default {
@@ -101,6 +116,7 @@ export default {
       number: 10,
       like: "like",
       currentComponent: "Home",
+      locations: ["東京","大阪","神奈川"],
       eventData: {
         title: "タイトルをv-modelでバインドしてます",
         titleTwo: ".lazy修飾子がある方です",
@@ -110,7 +126,9 @@ export default {
         hostTwo: "trimhost",
         detail: "テキストエリアの改行を表す",
         isPrivate: false, //boolean
-        target: []//複数のチェックボックスの時は配列になる
+        target: [],//複数のチェックボックスの時は配列になる
+        price: "無料",
+        location: "東京"
       }
     }
   },
@@ -120,7 +138,8 @@ export default {
     // ES6からはKeyとValueが同じの場合、下の様に短縮して書くことができる
     LikeHeader,
     About,
-    Home
+    Home,
+    EventTitle
   },
   methods: {
     // 下の引数(value)で$emitで書いた第二引数を受け取れる
